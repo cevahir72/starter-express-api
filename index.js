@@ -13,6 +13,7 @@ const productRoute = require("./routes/products");
 const answerRoute = require("./routes/answer");
 const analysisRoute = require("./routes/analysis");
 const adminRoute = require("./routes/admin");
+const rivalRoute = require("./routes/rival");
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use("/api/products", productRoute);
 app.use("/api/answers", answerRoute);
 app.use("/api/analysis", analysisRoute);
 app.use("/api/admin", adminRoute);
+app.use("/api/rival", rivalRoute);
 
 app.listen("5000", () => {
   console.log("Backend is running.");

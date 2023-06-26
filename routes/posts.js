@@ -66,9 +66,9 @@ router.get("/", async (req, res) => {
     let  posts;
   try {
     if(user === '' || user== undefined ) {
-        posts = await Post.find().sort({ createdAt: 1 }); 
+        posts = await Post.find(); 
     }else{
-      posts = await Post.find({username : user }).sort({ createdAt: 1 });
+      posts = await Post.find({username : user });
     }    
     res.status(200).json(posts);
   } catch (err) {

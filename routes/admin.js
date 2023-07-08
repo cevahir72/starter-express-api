@@ -98,11 +98,23 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const { user } = req.query;
   let sales;
+  const startDate = moment().startOf("month"); // Bu ayın başlangıç tarihi
+  const endDate = moment().endOf("month"); // Bu ayın bitiş tarihi
   try {
     if (user === "" || user == undefined) {
-      sales = await Sales.find();
+      sales = await Sales.find({
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      });
     } else {
-      sales = await Sales.find({ username: user });
+      sales = await Sales.find({ 
+        username: user,
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
+        }, });
     }
     res.status(200).json(sales);
   } catch (err) {
@@ -112,9 +124,17 @@ router.get("/", async (req, res) => {
 
 //GET MY ADMIN SALES
 router.get("/mySales/:id", async (req, res) => {
+  const startDate = moment().startOf("month"); // Bu ayın başlangıç tarihi
+  const endDate = moment().endOf("month"); // Bu ayın bitiş tarihi
   try {
     const usernames = ["Mevlüt", "Betül", "Admin"];
-    const sales = await Sales.find({ username: { $in: usernames } });
+    const sales = await Sales.find({ username: { 
+      $in: usernames
+       },
+       createdAt: {
+        $gte: startDate,
+        $lte: endDate,
+      } });
     res.status(200).json(sales);
   } catch (err) {
     res.status(500).json(err);
